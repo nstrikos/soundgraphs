@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>ParametersButton.qml</file>
+        <file>ShowGraphButton.qml</file>
+        <file>ShowTableButton.qml</file>
+        <file>ButtonsColumn.qml</file>
+        <file>ButtonsContainer.qml</file>
+        <file>ControlsContainer.qml</file>
+        <file>InputRect.qml</file>
+        <file>SubjectRect.qml</file>
+        <file>LabelText.qml</file>
+        <file>InputText.qml</file>
+        <file>TableView.qml</file>
+        <file>MyCanvas.qml</file>
+        <file>newmain.qml</file>
+        <file>LineEdit.qml</file>
+    </qresource>
+</RCC>
