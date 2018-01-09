@@ -92,7 +92,7 @@ Canvas {
                 var idx = (x + y * canvas.width) * 4
 
                 // Update the values of the pixel;
-                canvasData.data[idx + 0] = 0
+                canvasData.data[idx + 0] = 255
                 canvasData.data[idx + 1] = 0
                 canvasData.data[idx + 2] = 0
                 canvasData.data[idx + 3] = 255
@@ -104,7 +104,10 @@ Canvas {
 
     function drawLines() {
         var x,y
-        ctx.lineWidth = canvas.lineWidth
+        //ctx.lineWidth = canvas.lineWidth
+        ctx.lineWidth = 5
+        // set line color
+        ctx.strokeStyle = '#ff0000';
         ctx.beginPath()
 
         //Go to first point without drawing a line

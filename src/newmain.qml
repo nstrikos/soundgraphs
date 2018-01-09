@@ -180,11 +180,26 @@ Window {
                 LineEdit {
                     id: step
                     text: qsTr("0.1")
-                    KeyNavigation.tab: parametersButton
+                    KeyNavigation.tab: checkboxDrawLine
                     onActiveFocusChanged: {
                         if (activeFocus)
                             androidClient.speak(qsTr("End at: ") + text)
                     }
+                }
+            }
+            Row {
+//                Label {
+//                    height: 20
+//                    text: qsTr("Step:")
+//                }
+                CheckBox {
+                    id: checkboxDrawLine
+                    height: 20
+                    text: "Draw line"
+                    checked: false
+                    KeyNavigation.tab: parametersButton
+                    //width: parent.width
+                    onCheckedChanged: canvas.drawLinesEnabled = checked
                 }
             }
         }
@@ -198,11 +213,18 @@ Window {
         anchors.left: buttonsRect.right
         anchors.right: parent.right
         visible: false
-        color: "lightgreen"
+        color: "white"
         MouseArea {
             anchors.fill: parent
-            onClicked: {
-                console.log("mousearea clicked")
+            onPressed: {
+                canvas.mousePressed(mouseX, mouseY)
+                androidClient.speak(mouseX)
+                //androidClient.vibrate(mouseX)
+                //controlsContainer.visible = true
+                //canvas.visible = false
+            }
+            onReleased: {
+                androidClient.vibrate(mouseX)
             }
         }
         MyCanvas {
