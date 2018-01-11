@@ -30,6 +30,7 @@ Canvas {
     property var yPixelPosition:[]  //Store y screen coordinates
     property real lineWidth: 2
     property bool drawLinesEnabled: false
+    property real distance
 
     function paintCanvas() {
 
@@ -198,33 +199,47 @@ Canvas {
         var n = l / d
         if (d < l / max) {
             dMax(d, l, max, min)
+            findGridLines(xStart, xEnd, distance)
         }
         else if ( d >= l/max  && d <= l/min) {
             console.log("Found d: " + d)
+            findGridLines(xStart, xEnd, distance)
         }
         else {
             dMin(d, l, max, min)
+            findGridLines(xStart, xEnd, distance)
         }
     }
 
     function dMin(d, l, max, min) {
         console.log("We have to make d smaller: " + d)
         var temp_d = d
-        if (temp_d >= l /max && temp_d <= l/min) {
+        var f1 = l /max
+        var f2 = l / min
+        console.log("f1: " + f1 + " , f2:" + f2)
+        if (temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
             console.log("We found d: " + temp_d)
+            distance = temp_d
+            return
         }
         else {
-            temp_d = d / 2
-            if ( temp_d >= l /max && temp_d <= l/min) {
+            temp_d = d / 2.0
+            console.log(temp_d)
+            if ( temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
                 console.log("We found d: " + temp_d)
+                distance = temp_d
+                return
             }
             else {
-                temp_d = d / 5
-                if ( temp_d >= l /max && temp_d <= l/min) {
+                temp_d = d / 5.0
+                console.log(temp_d)
+                if ( temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
                     console.log("We found d: " + temp_d)
+                    distance = temp_d
+                    return
                 }
                 else {
-                    temp_d = d / 10
+                    temp_d = d / 10.0
                     dMin(temp_d, l , max,  min)
                 }
             }
@@ -237,22 +252,48 @@ Canvas {
         var temp_d = d
         if (temp_d >= l /max && temp_d <= l/min) {
             console.log("We found d: " + temp_d)
+            distance = temp_d
+            return
         }
         else {
             temp_d = 2 * d
             if ( temp_d >= l /max && temp_d <= l/min) {
                 console.log("We found d: " + temp_d)
+                distance = temp_d
+                return
             }
             else {
                 temp_d = 5 * d
                 if ( temp_d >= l /max && temp_d <= l/min) {
                     console.log("We found d: " + temp_d)
+                    distance = temp_d
+                    return
                 }
                 else {
                     temp_d = 10 * d
                     dMax(temp_d, l , max,  min)
                 }
             }
+        }
+    }
+
+    function findGridLines(x0, x1, dl) {
+        console.log(x0, x1, dl)
+        var point = (x0 + dl)
+        console.log("Start:" + point)
+        point = point / dl
+        console.log("Start:" + point)
+        point = Math.floor(point)
+        console.log("Start:" + point)
+        point = point * dl
+        console.log("Start:" + point)
+        var done = false
+        while (!done) {
+            point += dl
+            if (point < x1)
+                console.log("Point: " + point)
+            else
+                done = true
         }
     }
 }
