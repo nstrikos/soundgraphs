@@ -175,6 +175,84 @@ Canvas {
         h = parser.h
         xPoints = parser.xPoints
         yPoints = parser.yPoints
+        drawCoordinates()
         paintCanvas()
+    }
+
+    function drawCoordinates() {
+        console.log("Drawing coordinates")
+        console.log("xStart: " + xStart)
+        console.log("xEnd: " + xEnd)
+        console.log("yStart: " + yStart)
+        console.log("yEnd: " + yEnd)
+        console.log("h: " + h)
+
+        var max = 20 //Maximum twenty lines
+        var min = 10 //Minimum ten lines
+        var l = xEnd - xStart
+        console.log("Length (l) is: " + l)
+
+        var d = 1 //Starting distance
+        console.log("Starting distance (d): " + d)
+
+        var n = l / d
+        if (d < l / max) {
+            dMax(d, l, max, min)
+        }
+        else if ( d >= l/max  && d <= l/min) {
+            console.log("Found d: " + d)
+        }
+        else {
+            dMin(d, l, max, min)
+        }
+    }
+
+    function dMin(d, l, max, min) {
+        console.log("We have to make d smaller: " + d)
+        var temp_d = d
+        if (temp_d >= l /max && temp_d <= l/min) {
+            console.log("We found d: " + temp_d)
+        }
+        else {
+            temp_d = d / 2
+            if ( temp_d >= l /max && temp_d <= l/min) {
+                console.log("We found d: " + temp_d)
+            }
+            else {
+                temp_d = d / 5
+                if ( temp_d >= l /max && temp_d <= l/min) {
+                    console.log("We found d: " + temp_d)
+                }
+                else {
+                    temp_d = d / 10
+                    dMin(temp_d, l , max,  min)
+                }
+            }
+        }
+
+    }
+
+    function dMax(d, l, max, min) {
+        console.log("We have to make d bigger: " + d)
+        var temp_d = d
+        if (temp_d >= l /max && temp_d <= l/min) {
+            console.log("We found d: " + temp_d)
+        }
+        else {
+            temp_d = 2 * d
+            if ( temp_d >= l /max && temp_d <= l/min) {
+                console.log("We found d: " + temp_d)
+            }
+            else {
+                temp_d = 5 * d
+                if ( temp_d >= l /max && temp_d <= l/min) {
+                    console.log("We found d: " + temp_d)
+                }
+                else {
+                    temp_d = 10 * d
+                    dMax(temp_d, l , max,  min)
+                }
+            }
+        }
     }
 }

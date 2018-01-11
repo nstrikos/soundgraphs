@@ -433,6 +433,11 @@ Window {
         parser.yEnd = parseFloat(maximumY.text)
         parser.h = parseFloat(step.text)
         graphSignal()
+        canvas.xStart = parseFloat(input2.text)
+        canvas.xEnd = parseFloat(endX.text)
+        canvas.yStart = parseFloat(minimumY.text)
+        canvas.yEnd = parseFloat(maximumY.text)
+        canvas.h = parseFloat(step.text)
         canvas.visible = true
     }
 
