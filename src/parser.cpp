@@ -114,6 +114,15 @@ void Parser::run()
 
         //printf("%d %.20f %.30f %.30f\n", i, 0.04, a, result);
     }
+
+    //SOS this needs checking
+
+    byteCode.var[0] = m_xEnd;   // x is 1st in the above variables list, so it has index 0
+
+    const double result = byteCode.run();
+    m_XPoints.append(m_xEnd);
+    m_YPoints.append(result);
+
     qDebug() << "Calculation finished";
     emit calculationFinished();
 }
@@ -190,11 +199,11 @@ QList<double> Parser::xPoints()
 
 void Parser::receiveGraphSignal()
 {
-    qDebug() << "Graph signal received";
-    qDebug() << "Input function is: " << QString::fromStdString(m_functionString);
-    qDebug() << "x start is: " << m_xStart;
-    qDebug() << "x end is: " << m_xEnd;
-    qDebug() << "y start is: " << m_yStart;
-    qDebug() << "y end is: " << m_yEnd;
+//    qDebug() << "Graph signal received";
+//    qDebug() << "Input function is: " << QString::fromStdString(m_functionString);
+//    qDebug() << "x start is: " << m_xStart;
+//    qDebug() << "x end is: " << m_xEnd;
+//    qDebug() << "y start is: " << m_yStart;
+//    qDebug() << "y end is: " << m_yEnd;
     run();
 }
