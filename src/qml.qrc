@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>ParametersButton.qml</file>
         <file>ShowGraphButton.qml</file>
         <file>ShowTableButton.qml</file>
         <file>ButtonsColumn.qml</file>
@@ -15,5 +14,9 @@
         <file>MyCanvas.qml</file>
         <file>newmain.qml</file>
         <file>LineEdit.qml</file>
+        <file>ParametersButton.qml</file>
+        <file>GraphButton.qml</file>
+        <file>Rect2Button.qml</file>
+        <file>TableButton.qml</file>
     </qresource>
 </RCC>

@@ -3,15 +3,46 @@ import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
 
 Button {
-    id: parametersButton
+    id: root
     width: parent.width
-    height: 50
-    onClicked: {
-        controlsContainer.visible = true
-        canvas.visible = false
-        tableView.visible = false
-        controlsContainer.firstInputText.forceActiveFocus()
-        showTableButton.nextTab = 0
+    property bool isActive: true
+    property bool isPressed: false
+
+    contentItem: Text {
+        Text {
+         text: qsTr("Function\nparameters")
+         horizontalAlignment: Text.AlignHCenter
+         verticalAlignment: Text.AlignVCenter
+         font.pixelSize: 25
+         color: isPressed ? "red" : "blue"
+         anchors.fill: parent
+         antialiasing: true
+        }
     }
-    text: "Parameters"
+
+    background: Rectangle {
+        implicitHeight: 100
+        radius: 10
+        border.color: isActive ? "blue" : "gray"
+        border.width: 5
+    }
+
+    onClicked: {
+        isPressed = true
+        rect1.visible = true
+        input1.forceActiveFocus()
+        rect2.visible = false
+        rect3.visible = false
+        graphRect.visible = false
+    }
+
+    onFocusChanged: {
+        if (activeFocus) {
+            isActive = true
+            androidClient.speak(qsTr("Parameters button"))
+        }
+        else {
+            isActive = false
+        }
+    }
 }

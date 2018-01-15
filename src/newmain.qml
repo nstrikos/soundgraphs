@@ -20,68 +20,20 @@ Window {
         Column {
             anchors.fill: parent
             spacing: 5
-            Button {
+            ParametersButton {
                 id: parametersButton
-                width: parent.width
-                text: qsTr("Function parameters")
-                onClicked: {
-                    rect1.visible = true
-                    input1.forceActiveFocus()
-                    rect2.visible = false
-                    rect3.visible = false
-                    graphRect.visible = false
-                }
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Parameters button"))
-                }
             }
 
-            Button {
+            GraphButton {
                 id: graphButton
-                width: parent.width
-                text: qsTr("Show graph")
-                onClicked: graphButtonPressed()
-
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Graph button"))
-                }
             }
 
-            Button {
+            Rect2Button {
                 id: rect2Button
-                width: parent.width
-                text: qsTr("Show rect2")
-                onClicked: {
-                    rect1.visible = false
-                    rect2.visible = true
-                    input3.forceActiveFocus()
-                    rect3.visible = false
-                    graphRect.visible = false
-                }
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Show rect2 button"))
-                }
             }
 
-            Button {
+            TableButton {
                 id: tableButton
-                width: parent.width
-                text: qsTr("Table")
-                KeyNavigation.tab: buttonNextTab()
-                onClicked: {
-                    rect1.visible = false
-                    rect2.visible = false
-                    rect3.visible = true
-                    input5.forceActiveFocus()
-                    graphRect.visible = false
-                }
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Table button"))
-                }
             }
         }
     }
@@ -420,26 +372,7 @@ Window {
             return input5
     }
 
-    function graphButtonPressed() {
-        rect1.visible = false
-        rect2.visible = false
-        input3.forceActiveFocus()
-        rect3.visible = false
-        graphRect.visible = true
-        parser.functionString = input1.text
-        parser.xStart = parseFloat(input2.text)
-        parser.xEnd = parseFloat(endX.text)
-        parser.yStart = parseFloat(minimumY.text)
-        parser.yEnd = parseFloat(maximumY.text)
-        parser.h = parseFloat(step.text)
-        graphSignal()
-        canvas.xStart = parseFloat(input2.text)
-        canvas.xEnd = parseFloat(endX.text)
-        canvas.yStart = parseFloat(minimumY.text)
-        canvas.yEnd = parseFloat(maximumY.text)
-        canvas.h = parseFloat(step.text)
-        canvas.visible = true
-    }
+
 
     function updatePoints() {
         canvas.updatePoints()
