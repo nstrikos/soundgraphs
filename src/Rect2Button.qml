@@ -14,7 +14,7 @@ Button {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: 25
-            color: isPressed ? "red" : "blue"
+            color: setTextColor()
             anchors.fill: parent
             antialiasing: true
         }
@@ -24,6 +24,7 @@ Button {
         implicitHeight: 100
         radius: 10
         border.color: isActive ? "blue" : "gray"
+        color: isPressed ? "lightblue": "white"
         border.width: 5
     }
 
@@ -40,10 +41,29 @@ Button {
     }
 
     function rect2ButtonPressed() {
-        rect1.visible = false
+        parametersRect.visible = false
         rect2.visible = true
         input3.forceActiveFocus()
         rect3.visible = false
         graphRect.visible = false
+        parametersButton.isPressed = false
+        graphButton.isPressed = false
+        tableButton.isPressed = false
+        isPressed = true
+    }
+
+    function setTextColor() {
+        if (isActive) {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
+        else {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
     }
 }

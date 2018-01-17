@@ -18,5 +18,6 @@
         <file>GraphButton.qml</file>
         <file>Rect2Button.qml</file>
         <file>TableButton.qml</file>
+        <file>ParametersRect.qml</file>
     </qresource>
 </RCC>

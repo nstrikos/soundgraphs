@@ -6,31 +6,35 @@ Button {
     id: root
     width: parent.width
     property bool isActive: true
-    property bool isPressed: false
+    property bool isPressed: true
+    //property color buttonTextColor: buttonText.color
 
     contentItem: Text {
-        Text {
-         text: qsTr("Function\nparameters")
-         horizontalAlignment: Text.AlignHCenter
-         verticalAlignment: Text.AlignVCenter
-         font.pixelSize: 25
-         color: isPressed ? "red" : "blue"
-         anchors.fill: parent
-         antialiasing: true
-        }
+        id: buttonText
+        text: qsTr("Function\nparameters")
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pixelSize: 25
+        color: setTextColor()
+        anchors.fill: parent
+        antialiasing: true
     }
 
     background: Rectangle {
         implicitHeight: 100
         radius: 10
-        border.color: isActive ? "blue" : "gray"
+        border.color: setBorderColor()
+        color: isPressed ? "lightblue": "white"
         border.width: 5
     }
 
     onClicked: {
         isPressed = true
-        rect1.visible = true
-        input1.forceActiveFocus()
+        graphButton.isPressed = false
+        tableButton.isPressed = false
+        rect2Button.isPressed = false
+        parametersRect.visible = true
+        parametersRect.input1.forceActiveFocus()
         rect2.visible = false
         rect3.visible = false
         graphRect.visible = false
@@ -44,5 +48,32 @@ Button {
         else {
             isActive = false
         }
+    }
+
+    function setTextColor() {
+        if (isActive) {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
+        else {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
+    }
+
+    function setBorderColor() {
+        if (isActive)
+            return "blue"
+        else
+            return "gray"
+    }
+
+    Component.onCompleted: {
+        isActive = true
+        isPressed = true
     }
 }

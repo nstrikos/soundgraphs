@@ -15,7 +15,7 @@ Button {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: 25
-            color: isPressed ? "red" : "blue"
+            color: setTextColor()
             anchors.fill: parent
             antialiasing: true
         }
@@ -25,6 +25,7 @@ Button {
         implicitHeight: 100
         radius: 10
         border.color: isActive ? "blue" : "gray"
+        color: isPressed ? "lightblue": "white"
         border.width: 5
     }
 
@@ -41,28 +42,38 @@ Button {
     }
 
     function tableButtonPressed() {
-        rect1.visible = false
+        parametersRect.visible = false
         rect2.visible = false
         rect3.visible = true
         input5.forceActiveFocus()
         graphRect.visible = false
+        parametersButton.isPressed = false
+        rect2Button.isPressed = false
+        graphButton.isPressed = false
+        isPressed = true
+    }
+
+    function setTextColor() {
+        if (isActive) {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
+        else {
+            if (isPressed)
+                return "black"
+            else
+                return "gray"
+        }
+    }
+
+    function buttonNextTab() {
+        if (parametersRect.visible)
+            return parametersRect.input1
+        else if (rect2.visible)
+            return input3
+        else
+            return input5
     }
 }
-
-//Button {
-//    id: tableButton
-//    width: parent.width
-//    text: qsTr("Table")
-//    KeyNavigation.tab: buttonNextTab()
-//    onClicked: {
-//        rect1.visible = false
-//        rect2.visible = false
-//        rect3.visible = true
-//        input5.forceActiveFocus()
-//        graphRect.visible = false
-//    }
-//    onActiveFocusChanged: {
-//        if (activeFocus)
-//            androidClient.speak(qsTr("Table button"))
-//    }
-//}
