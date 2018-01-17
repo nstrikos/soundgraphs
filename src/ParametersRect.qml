@@ -1,131 +1,75 @@
 import QtQuick 2.10
 import QtQuick.Window 2.10
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.3
 
 Rectangle {
     id: root
 
-    property alias input1: input1
-    property alias input2: input2
-    property alias endX: endX
-    property alias minimumY: minimumY
-    property alias maximumY: maximumY
-    property alias step: step
+    property alias input1: functionInput
+    property alias input2: startXInput
+    property alias endX: endXInput
+    property alias minimumY: minimumYInput
+    property alias maximumY: maximumYInput
+    property alias step: stepInput
+
+    property int spacing: 5
 
 
-    color: "lightblue"
+    color: "white"
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     anchors.left: buttonsRect.right
     anchors.right: parent.right
     visible: true
     Column {
-        spacing: 5
+        spacing: spacing
         anchors.fill: parent
-        Row {
-            Label {
-                height: 20
-                text: qsTr("Function")
-            }
-            LineEdit {
-                id: input1
-                KeyNavigation.tab: input2
-                text: qsTr("sin(x)")
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Function ") + text)
-                }
-            }
+        TextEditLayout {
+            id: functionInput
+            labelText: qsTr("Function")
+            input.text: "sin(x)"
+            KeyNavigation.tab: startXInput
         }
-        Row {
-            Label {
-                height: 20
-                text: qsTr("Start at:")
-            }
-            LineEdit {
-                id: input2
-                text: qsTr("-10")
-                KeyNavigation.tab: endX
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("Start at: ") + text)
-                }
-            }
+        TextEditLayout {
+            id: startXInput
+            labelText: qsTr("Start at:")
+            input.text: "-10"
+            KeyNavigation.tab: endXInput
         }
-        Row {
-            Label {
-                height: 20
-                text: qsTr("End at:")
-            }
-            LineEdit {
-                id: endX
-                text: qsTr("10")
-                KeyNavigation.tab: minimumY
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("End at: ") + text)
-                }
-            }
+        TextEditLayout {
+            id: endXInput
+            labelText: qsTr("End at:")
+            input.text: "10"
+            KeyNavigation.tab: minimumYInput
         }
-        Row {
-            Label {
-                height: 20
-                text: qsTr("Minimum Y:")
-            }
-            LineEdit {
-                id: minimumY
-                text: qsTr("-10")
-                KeyNavigation.tab: maximumY
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("End at: ") + text)
-                }
-            }
+        TextEditLayout {
+            id: minimumYInput
+            labelText: qsTr("Minimum Y:")
+            input.text: "-10"
+            KeyNavigation.tab: maximumYInput
         }
-        Row {
-            Label {
-                height: 20
-                text: qsTr("Maximum Y:")
-            }
-            LineEdit {
-                id: maximumY
-                text: qsTr("10")
-                KeyNavigation.tab: step
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("End at: ") + text)
-                }
-            }
+        TextEditLayout {
+            id: maximumYInput
+            labelText: qsTr("Maximum Y:")
+            input.text: "10"
+            KeyNavigation.tab: stepInput
         }
-        Row {
-            Label {
-                height: 20
-                text: qsTr("Step:")
-            }
-            LineEdit {
-                id: step
-                text: qsTr("0.1")
-                KeyNavigation.tab: checkboxDrawLine
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        androidClient.speak(qsTr("End at: ") + text)
-                }
-            }
+        TextEditLayout {
+            id: stepInput
+            labelText: qsTr("Step:")
+            input.text: "0.1"
+            KeyNavigation.tab: checkboxDrawLine
         }
-        Row {
-            //                Label {
-            //                    height: 20
-            //                    text: qsTr("Step:")
-            //                }
-            CheckBox {
-                id: checkboxDrawLine
-                height: 20
-                text: "Draw line"
-                checked: false
-                KeyNavigation.tab: parametersButton
-                //width: parent.width
-                onCheckedChanged: canvas.drawLinesEnabled = checked
-            }
+
+        CheckBox {
+            id: checkboxDrawLine
+            height: 20
+            text: "Draw line"
+            checked: false
+            KeyNavigation.tab: parametersButton
+            //width: parent.width
+            onCheckedChanged: canvas.drawLinesEnabled = checked
         }
     }
 }

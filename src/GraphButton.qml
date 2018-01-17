@@ -50,18 +50,18 @@ Button {
         tableButton.isPressed = false
         rect2Button.isPressed = false
         isPressed = true
-        parser.functionString = parametersRect.input1.text
-        parser.xStart = parseFloat(parametersRect.input2.text)
-        parser.xEnd = parseFloat(parametersRect.endX.text)
-        parser.yStart = parseFloat(parametersRect.minimumY.text)
-        parser.yEnd = parseFloat(parametersRect.maximumY.text)
-        parser.h = parseFloat(parametersRect.step.text)
+        parser.functionString = parametersRect.input1.input.text
+        parser.xStart = parseFloat(parametersRect.input2.input.text)
+        parser.xEnd = parseFloat(parametersRect.endX.input.text)
+        parser.yStart = parseFloat(parametersRect.minimumY.input.text)
+        parser.yEnd = parseFloat(parametersRect.maximumY.input.text)
+        parser.h = parseFloat(parametersRect.step.input.text)
         graphSignal()
-        canvas.xStart = parseFloat(parametersRect.input2.text)
-        canvas.xEnd = parseFloat(parametersRect.endX.text)
-        canvas.yStart = parseFloat(parametersRect.minimumY.text)
-        canvas.yEnd = parseFloat(parametersRect.maximumY.text)
-        canvas.h = parseFloat(parametersRect.step.text)
+        canvas.xStart = parseFloat(parametersRect.input2.input.text)
+        canvas.xEnd = parseFloat(parametersRect.endX.input.text)
+        canvas.yStart = parseFloat(parametersRect.minimumY.input.text)
+        canvas.yEnd = parseFloat(parametersRect.maximumY.input.text)
+        canvas.h = parseFloat(parametersRect.step.input.text)
         canvas.visible = true
     }
 

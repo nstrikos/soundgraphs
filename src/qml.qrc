@@ -19,5 +19,6 @@
         <file>Rect2Button.qml</file>
         <file>TableButton.qml</file>
         <file>ParametersRect.qml</file>
+        <file>TextEditLayout.qml</file>
     </qresource>
 </RCC>
