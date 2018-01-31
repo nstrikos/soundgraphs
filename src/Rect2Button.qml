@@ -43,7 +43,7 @@ Button {
     function rect2ButtonPressed() {
         parametersRect.visible = false
         rect2.visible = true
-        input3.forceActiveFocus()
+        rect2.input3.forceActiveFocus()
         rect3.visible = false
         graphRect.visible = false
         parametersButton.isPressed = false

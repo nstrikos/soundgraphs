@@ -6,6 +6,7 @@ Window {
     visible: true
     width: 640
     height: 480
+    minimumWidth: 850
     title: qsTr("Sound graphs")
 
     signal graphSignal()
@@ -44,7 +45,6 @@ Window {
     ParametersRect {
         id: parametersRect
     }
-
 
     Rectangle {
         id: graphRect
@@ -147,62 +147,8 @@ Window {
     //    }
 
 
-    Rectangle {
+    Rect2 {
         id: rect2
-        color: "linen"
-        visible: false
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            right: parent.right
-            left: buttonsRect.right
-        }
-
-        Column {
-            spacing: 5
-            anchors.fill: parent
-            Row {
-                Label {
-                    height: 20
-                    text: qsTr("Text:")
-                }
-                LineEdit {
-                    id: input3
-                    //x: 8; y: 8
-                    //width: 96; height: 20
-                    //focus: true
-                    text: "Text Input 3"
-                    KeyNavigation.tab: input4
-                    Accessible.role: Accessible.EditableText
-                    //Accessible.name: "Input"
-                    Accessible.description: "Insert third value"
-                    onActiveFocusChanged: {
-                        if (activeFocus)
-                            androidClient.speak("Input 3 " + text)
-                    }
-                }
-            }
-            Row {
-                Label {
-                    text: qsTr("Text")
-                    height: 20
-                }
-                LineEdit {
-                    id: input4
-                    //x: 8; y: 36
-                    //width: 96; height: 20
-                    text: "Text Input 4"
-                    KeyNavigation.tab: parametersButton
-                    //Accessible.role: Accessible.editable
-                    //Accessible.name: "Input"
-                    Accessible.description: "Insert fourth value"
-                    onActiveFocusChanged: {
-                        if (activeFocus)
-                            androidClient.speak("Input 4 " + text)
-                    }
-                }
-            }
-        }
     }
 
     Rectangle {
@@ -254,5 +200,12 @@ Window {
     function updatePoints() {
         canvas.updatePoints()
         //focusScope.forceActiveFocus()
+    }
+
+    Component.onCompleted: {
+        parametersRect.visible = true
+        graphRect.visible = false
+        rect2.visible = false
+        rect3.visible = false
     }
 }

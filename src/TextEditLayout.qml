@@ -8,11 +8,15 @@ RowLayout {
     property alias labelText: label.text
     property alias input: input
 
+    anchors.left: parent.left
+    anchors.right: parent.right
+
     Rectangle {
-        Layout.fillWidth: true
-        Layout.minimumWidth: 100
+        //Layout.fillWidth: true
+        Layout.minimumWidth: parent.width / 5
         Layout.preferredWidth: 100
         Layout.preferredHeight: 40
+        color: "red"
         Label {
             id: label
             text: qsTr("Function")
@@ -23,15 +27,20 @@ RowLayout {
     Rectangle {
         id: textRect
         border.color: "gray"
+        color: "orange"
         border.width: 5
         radius: 10
         Layout.minimumWidth: 100
-        Layout.preferredWidth: root.width - label.width - spacing
+        //Layout.preferredWidth: root.width - label.width - spacing - 20
+        Layout.fillWidth: true
+        Layout.maximumWidth: parent.width * 4 / 5
+        //anchors.left: label.right
+        //anchors.right: parent.right
         Layout.preferredHeight: 100
         TextInput {
             id: input
             focus: true
-            width: parent.width - spacing * 2
+            //width: parent.width - spacing * 2
             clip: true
             anchors.centerIn: parent
             //KeyNavigation.tab: input2

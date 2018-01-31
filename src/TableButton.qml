@@ -72,7 +72,7 @@ Button {
         if (parametersRect.visible)
             return parametersRect.input1
         else if (rect2.visible)
-            return input3
+            return rect2.input3
         else
             return input5
     }
