@@ -23,7 +23,7 @@ Button {
     background: Rectangle {
         implicitHeight: 100
         radius: 10
-        border.color: isActive ? "blue" : "gray"
+        border.color: isActive ? "red" : "gray"
         color: isPressed ? "lightblue": "white"
         border.width: 5
     }
@@ -49,6 +49,7 @@ Button {
         tableButton.isPressed = false
         rect2Button.isPressed = false
         isPressed = true
+        canvas.drawLinesEnabled = parametersRect.checkDrawLine.isPressed
         parser.functionString = parametersRect.input1.input.text
         parser.xStart = parseFloat(parametersRect.input2.input.text)
         parser.xEnd = parseFloat(parametersRect.endX.input.text)
@@ -61,7 +62,7 @@ Button {
         canvas.yStart = parseFloat(parametersRect.minimumY.input.text)
         canvas.yEnd = parseFloat(parametersRect.maximumY.input.text)
         canvas.h = parseFloat(parametersRect.step.input.text)
-        canvas.visible = true
+        canvas.visible = true        
     }
 
     function setTextColor() {

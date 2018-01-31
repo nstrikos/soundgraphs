@@ -12,9 +12,7 @@ Rectangle {
     property alias minimumY: minimumYInput
     property alias maximumY: maximumYInput
     property alias step: stepInput
-
-    property int spacing: 5
-
+    property alias checkDrawLine: checkDrawLine
 
     color: "white"
     anchors.top: parent.top
@@ -23,11 +21,11 @@ Rectangle {
     anchors.right: parent.right
     visible: true
     Column {
-        spacing: spacing
+        spacing: 5
         anchors.fill: parent
         TextEditLayout {
             id: functionInput
-            labelText: qsTr("Function")
+            labelText: qsTr("Function:")
             input.text: "sin(x)"
             KeyNavigation.tab: startXInput
         }
@@ -59,17 +57,11 @@ Rectangle {
             id: stepInput
             labelText: qsTr("Step:")
             input.text: "0.1"
-            KeyNavigation.tab: checkboxDrawLine
+            KeyNavigation.tab: checkDrawLine
         }
-
-        CheckBox {
-            id: checkboxDrawLine
-            height: 20
-            text: "Draw line"
-            checked: false
-            KeyNavigation.tab: parametersButton
-            //width: parent.width
-            onCheckedChanged: canvas.drawLinesEnabled = checked
+        CheckButton {
+            id: checkDrawLine
+            text: qsTr("Draw lines")
         }
     }
 }

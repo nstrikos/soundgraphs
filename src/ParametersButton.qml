@@ -67,7 +67,7 @@ Button {
 
     function setBorderColor() {
         if (isActive)
-            return "blue"
+            return "red"
         else
             return "gray"
     }

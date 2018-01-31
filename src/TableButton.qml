@@ -24,7 +24,7 @@ Button {
     background: Rectangle {
         implicitHeight: 100
         radius: 10
-        border.color: isActive ? "blue" : "gray"
+        border.color: isActive ? "red" : "gray"
         color: isPressed ? "lightblue": "white"
         border.width: 5
     }

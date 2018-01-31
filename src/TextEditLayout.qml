@@ -5,21 +5,17 @@ import QtQuick.Layouts 1.3
 
 RowLayout {
 
+    property alias text: input.text
     property alias labelText: label.text
     property alias input: input
 
-    anchors.left: parent.left
-    anchors.right: parent.right
+    width: parent.width
 
     Rectangle {
-        //Layout.fillWidth: true
-        Layout.minimumWidth: parent.width / 5
-        Layout.preferredWidth: 100
-        Layout.preferredHeight: 40
-        color: "red"
+        Layout.minimumWidth: 150
         Label {
             id: label
-            text: qsTr("Function")
+            text: labelText
             font.pixelSize: 20
             anchors.centerIn: parent
         }
@@ -27,35 +23,32 @@ RowLayout {
     Rectangle {
         id: textRect
         border.color: "gray"
-        color: "orange"
-        border.width: 5
+        border.width: 2
         radius: 10
-        Layout.minimumWidth: 100
-        //Layout.preferredWidth: root.width - label.width - spacing - 20
         Layout.fillWidth: true
-        Layout.maximumWidth: parent.width * 4 / 5
-        //anchors.left: label.right
-        //anchors.right: parent.right
-        Layout.preferredHeight: 100
+        Layout.preferredHeight: 50
         TextInput {
             id: input
+            text: text
             focus: true
-            //width: parent.width - spacing * 2
             clip: true
             anchors.centerIn: parent
-            //KeyNavigation.tab: input2
-            text: qsTr("sin(x)")
-            font.pixelSize: 30
+            font.pixelSize: 20
             onActiveFocusChanged: {
                 if (activeFocus) {
-                    textRect.border.color = "blue"
-                    androidClient.speak(qsTr("Function ") + text)
+                    textRect.border.color = "red"
+                    textRect.border.width = 5
+                    androidClient.speak(label.text + input.text)
                 }
-                else
-                {
+                else {
                     textRect.border.color = "gray"
+                    textRect.border.width = 2
                 }
             }
+        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: input.forceActiveFocus()
         }
     }
 

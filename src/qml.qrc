@@ -21,5 +21,6 @@
         <file>ParametersRect.qml</file>
         <file>TextEditLayout.qml</file>
         <file>Rect2.qml</file>
+        <file>CheckButton.qml</file>
     </qresource>
 </RCC>
