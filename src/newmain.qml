@@ -11,35 +11,8 @@ Window {
 
     signal graphSignal()
 
-    Rectangle {
+    ButtonsRect {
         id: buttonsRect
-        width: 200
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        color: "lightgray"
-        Column {
-            anchors.fill: parent
-            spacing: 5
-            ParametersButton {
-                id: parametersButton
-            }
-
-            GraphButton {
-                id: graphButton
-            }
-
-            Rect2Button {
-                id: rect2Button
-            }
-
-            TableButton {
-                id: tableButton
-            }
-        }
-        Component.onCompleted: {
-            parametersButton.forceActiveFocus()
-        }
     }
 
     ParametersRect {
@@ -113,7 +86,7 @@ Window {
                 x: 8; y: 36
                 width: 96; height: 20
                 text: "Text Input 6"
-                KeyNavigation.tab: parametersButton
+                KeyNavigation.tab: buttonsRect.parametersButton
                 Accessible.role: Accessible.EditableText
                 //Accessible.name: "Input"
                 Accessible.description: "Insert sixth value"

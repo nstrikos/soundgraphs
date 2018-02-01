@@ -39,7 +39,7 @@ Rectangle {
             height: 20
             text: "Low"
             checked: false
-            KeyNavigation.tab: parametersButton
+            KeyNavigation.tab: buttonsRect.parametersButton
             //width: parent.width
             onCheckedChanged: canvas.drawLinesEnabled = checked
         }

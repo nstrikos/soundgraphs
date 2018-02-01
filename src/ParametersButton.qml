@@ -7,7 +7,6 @@ Button {
     width: parent.width
     property bool isActive: true
     property bool isPressed: true
-    //property color buttonTextColor: buttonText.color
 
     contentItem: Text {
         id: buttonText
