@@ -24,5 +24,6 @@
         <file>CheckButton.qml</file>
         <file>ButtonsRect.qml</file>
         <file>GraphRect.qml</file>
+        <file>GraphCanvasJS.js</file>
     </qresource>
 </RCC>
