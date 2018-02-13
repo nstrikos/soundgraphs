@@ -11,7 +11,7 @@
         <file>LabelText.qml</file>
         <file>InputText.qml</file>
         <file>TableView.qml</file>
-        <file>MyCanvas.qml</file>
+        <file>GraphCanvas.qml</file>
         <file>newmain.qml</file>
         <file>LineEdit.qml</file>
         <file>ParametersButton.qml</file>
@@ -23,5 +23,6 @@
         <file>Rect2.qml</file>
         <file>CheckButton.qml</file>
         <file>ButtonsRect.qml</file>
+        <file>GraphRect.qml</file>
     </qresource>
 </RCC>

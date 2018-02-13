@@ -19,33 +19,8 @@ Window {
         id: parametersRect
     }
 
-    Rectangle {
+    GraphRect {
         id: graphRect
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: buttonsRect.right
-        anchors.right: parent.right
-        visible: false
-        color: "white"
-        MouseArea {
-            anchors.fill: parent
-            onPressed: {
-                canvas.mousePressed(mouseX, mouseY)
-                androidClient.speak(mouseX)
-                //androidClient.vibrate(mouseX)
-                //controlsContainer.visible = true
-                //canvas.visible = false
-            }
-            onReleased: {
-                androidClient.vibrate(mouseX)
-            }
-        }
-        MyCanvas {
-            id: canvas
-            visible: false
-            anchors.fill: parent
-
-        }
     }
 
     Rect2 {
@@ -99,8 +74,7 @@ Window {
     }
 
     function updatePoints() {
-        canvas.updatePoints()
-        //focusScope.forceActiveFocus()
+        graphRect.graphCanvas.updatePoints()
     }
 
     Component.onCompleted: {

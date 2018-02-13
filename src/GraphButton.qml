@@ -49,7 +49,7 @@ Button {
         tableButton.isPressed = false
         rect2Button.isPressed = false
         isPressed = true
-        canvas.drawLinesEnabled = parametersRect.checkDrawLine.isPressed
+        graphRect.graphCanvas.drawLinesEnabled = parametersRect.checkDrawLine.isPressed
         parser.functionString = parametersRect.input1.input.text
         parser.xStart = parseFloat(parametersRect.input2.input.text)
         parser.xEnd = parseFloat(parametersRect.endX.input.text)
@@ -57,12 +57,12 @@ Button {
         parser.yEnd = parseFloat(parametersRect.maximumY.input.text)
         parser.h = parseFloat(parametersRect.step.input.text)
         graphSignal()
-        canvas.xStart = parseFloat(parametersRect.input2.input.text)
-        canvas.xEnd = parseFloat(parametersRect.endX.input.text)
-        canvas.yStart = parseFloat(parametersRect.minimumY.input.text)
-        canvas.yEnd = parseFloat(parametersRect.maximumY.input.text)
-        canvas.h = parseFloat(parametersRect.step.input.text)
-        canvas.visible = true        
+        graphRect.graphCanvas.xStart = parseFloat(parametersRect.input2.input.text)
+        graphRect.graphCanvas.xEnd = parseFloat(parametersRect.endX.input.text)
+        graphRect.graphCanvas.yStart = parseFloat(parametersRect.minimumY.input.text)
+        graphRect.graphCanvas.yEnd = parseFloat(parametersRect.maximumY.input.text)
+        graphRect.graphCanvas.h = parseFloat(parametersRect.step.input.text)
+        graphRect.graphCanvas.visible = true
     }
 
     function setTextColor() {
