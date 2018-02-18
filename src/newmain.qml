@@ -40,7 +40,7 @@ Window {
 
         Column {
 
-            LineEdit {
+            TextEditLayout {
                 id: input5
                 x: 8; y: 8
                 width: 96; height: 20
@@ -56,7 +56,7 @@ Window {
                 }
             }
 
-            LineEdit {
+            TextEditLayout {
                 id: input6
                 x: 8; y: 36
                 width: 96; height: 20

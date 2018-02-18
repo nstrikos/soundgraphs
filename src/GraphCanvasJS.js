@@ -1,24 +1,5 @@
-function paintCanvas() {
-    Script.initializeCanvas()
-    //initializeCanvas()
-    Script.initializeArrays()
-    Script.calculateScreenCoordinates()
-    Script.draw()
-}
-
-function mousePressed(x, y)
+function updatePoints()
 {
-    console.log("Pressed at x:" + x + ", y:" + y)
-    var ctx = canvas.getContext("2d")
-    ctx.fillStyle = "#33a9ff"
-    ctx.beginPath()
-    ctx.arc(x, y, 5, 0, 2*Math.PI)
-    ctx.closePath()
-    ctx.fill()
-    canvas.requestPaint();
-}
-
-function updatePoints() {
     xStart = parser.xStart
     xEnd = parser.xEnd
     yStart = parser.yStart
@@ -29,7 +10,18 @@ function updatePoints() {
     paintCanvas()
 }
 
-function initializeCanvas() {
+function paintCanvas()
+{
+    initializeCanvas()
+    initializeArrays()
+    calculateScreenCoords()
+    draw()
+}
+
+
+
+function initializeCanvas()
+{
     ctx = canvas.getContext("2d")
     if (canvas.width > 0 && canvas.height > 0) {
         //There is a problem initializing canvas, that's why we use canvasDataAreValid variable
@@ -40,39 +32,44 @@ function initializeCanvas() {
     }
 }
 
-function initializeArrays() {
-    //xPoints.length = 0
-    //yPoints.length = 0
-    xPixelPosition.length = 0
-    yPixelPosition.length = 0
-    realXGrid.length = 0
-    realYGrid.length = 0
+function initializeArrays()
+{
+    xPoints.lenth = 0
+    yPoints.length = 0
+    xScrCoords.length = 0
+    yScrCoords.length = 0
     xGrid.length = 0
     yGrid.length = 0
+    xGridScrCoords.length = 0
+    yGridScrCoords.length = 0
+    tempGrid.length = 0
 }
 
-function calculateScreenCoordinates() {
+function calculateScreenCoords()
+{
     for (var i = 0; i < xPoints.length; i++) {
         var x =  Math.round( strip( canvas.width / (xEnd - xStart) * (xPoints[i] - xStart) ) )
         var y = Math.round( strip(canvas.height / (yEnd - yStart) * (yPoints[i] - yStart) ) )
         y = canvas.height - y
-        xPixelPosition.push(x)
-        yPixelPosition.push(y)
+        xScrCoords.push(x)
+        yScrCoords.push(y)
     }
 }
 
-function draw() {
+function draw()
+{
     if (drawLinesEnabled)
         drawLines()
     else
         drawPixels()
 }
 
-function drawPixels() {
+function drawPixels()
+{
     if (canvasDataAreValid) {
-        for ( var i = 0; i < xPixelPosition.length; i++) {
-            var y = yPixelPosition[i]
-            var x = xPixelPosition[i]
+        for ( var i = 0; i < xScrCoords.length; i++) {
+            var y = yScrCoords[i]
+            var x = xScrCoords[i]
             var idx = (x + y * canvas.width) * 4
 
             // Update the values of the pixel;
@@ -86,11 +83,11 @@ function drawPixels() {
     }
 }
 
-function drawLines() {
+function drawLines()
+{
     ctx.beginPath()
     ctx.lineWidth = 4
-    // set line color
-    ctx.strokeStyle = '#000000';
+    ctx.strokeStyle = '#000000'; // set line color
     var xAxes =  Math.round( strip( canvas.width / (xEnd - xStart) * (0 - xStart) ) )
     var yAxes = Math.round( strip(canvas.height / (yEnd - yStart) * (0 - yStart) ) )
     ctx.moveTo(xAxes, 0)
@@ -109,34 +106,34 @@ function drawLines() {
     ctx.beginPath()
 
     //Go to first point without drawing a line
-    y = yPixelPosition[0]
-    x = xPixelPosition[0]
+    y = yScrCoords[0]
+    x = xScrCoords[0]
     ctx.moveTo(x, y)
 
     //Begin drawing lines
-    for (var i = 1; i < xPixelPosition.length; i++) {
-        y = yPixelPosition[i]
-        x = xPixelPosition[i]
+    for (var i = 1; i < xScrCoords.length; i++) {
+        y = yScrCoords[i]
+        x = xScrCoords[i]
         ctx.lineTo(x, y)
     }
     ctx.stroke()
 
     drawCoordinates(xStart, xEnd, "x")
-    xGrid = tempGrid
+    xGridScrCoords = tempGrid
     ctx.beginPath()
     ctx.lineWidth = 0.1
     // set line color
     ctx.strokeStyle = '#000000';
     i = 0;
-    while ( i < xGrid.length) {
-        x = xGrid[i];
+    while ( i < xGridScrCoords.length) {
+        x = xGridScrCoords[i];
         //ctx.font = "30px Arial";
         ctx.fillStyle = "black";
-        var round = Math.round (realXGrid[i] / distance) * distance
+        var round = Math.round (xGrid[i] / distance) * distance
         //round = parseFloat(round)
         var text = +parseFloat(round).toFixed(5)
         var w = ctx.measureText(text).width
-        console.log(i, realXGrid[i])
+        console.log(i, xGrid[i])
         if ( (x + w/2) >= canvas.width )
         {
             var pos = x - w/2 - 10
@@ -154,12 +151,12 @@ function drawLines() {
     }
 
     drawCoordinates(yStart, yEnd, "y")
-    yGrid = tempGrid
+    yGridScrCoords = tempGrid
     i = 0;
-    while ( i < yGrid.length) {
-        y = yGrid[i];
+    while ( i < yGridScrCoords.length) {
+        y = yGridScrCoords[i];
         ctx.fillStyle = "black";
-        round = Math.round (realYGrid[i] / distance) * distance
+        round = Math.round (yGrid[i] / distance) * distance
         ctx.fillText(+parseFloat(round).toFixed(5), 0, canvas.height - y);
         ctx.moveTo(0, y)
         ctx.lineTo(canvas.width, y)
@@ -262,11 +259,11 @@ function findGridLines(x0, x1, dl, method) {
     point = point * dl
     if (method === "x") {
         tempGrid.push(Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) ))
-        realXGrid.push(point)
+        xGrid.push(point)
     }
     else {
         tempGrid.push(Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) ))
-        realYGrid.push(point)
+        yGrid.push(point)
     }
 //        point = (x0 + dl)
 //        point = point / dl
@@ -274,11 +271,11 @@ function findGridLines(x0, x1, dl, method) {
 //        point = point * dl
 //        if (method === "x") {
 //            tempGrid.push(Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) ))
-//            realXGrid.push(point)
+//            xGrid.push(point)
 //        }
 //        else {
 //            tempGrid.push(Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) ))
-//            realYGrid.push(point)
+//            yGrid.push(point)
 //        }
     var done = false
     while (!done) {
@@ -287,22 +284,22 @@ function findGridLines(x0, x1, dl, method) {
             var screenPoint
             if (method === "x") {
                 screenPoint =  Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) )
-                realXGrid.push(point)
+                xGrid.push(point)
             }
             else {
                 screenPoint = Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) )
-                realYGrid.push(point)
+                yGrid.push(point)
             }
             tempGrid.push(screenPoint)
         }
         else {
             if (method === "x") {
                 screenPoint =  Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) )
-                realXGrid.push(point)
+                xGrid.push(point)
             }
             else {
                 screenPoint = Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) )
-                realYGrid.push(point)
+                yGrid.push(point)
             }
             tempGrid.push(screenPoint)
             return
@@ -310,7 +307,7 @@ function findGridLines(x0, x1, dl, method) {
     }
 }
 
-function drawXGridLines() {
+function drawxGridScrCoordsLines() {
     var x,y
     //ctx.lineWidth = canvas.lineWidth
     ctx.lineWidth = 5
@@ -319,20 +316,20 @@ function drawXGridLines() {
     ctx.beginPath()
 
     //        //Go to first point without drawing a line
-    //        y = yPixelPosition[0]
-    //        x = xPixelPosition[0]
+    //        y = yScrCoords[0]
+    //        x = xScrCoords[0]
     //        ctx.moveTo(x, y)
 
     //        //Begin drawing lines
-    //        for (var i = 1; i < xPixelPosition.length; i++) {
-    //            y = yPixelPosition[i]
-    //            x = xPixelPosition[i]
+    //        for (var i = 1; i < xScrCoords.length; i++) {
+    //            y = yScrCoords[i]
+    //            x = xScrCoords[i]
     //            ctx.lineTo(x, y)
     //        }
     //        ctx.stroke()
     var i = 0;
-    while ( i < xGrid.length) {
-        x = xGrid[i];
+    while ( i < xGridScrCoords.length) {
+        x = xGridScrCoords[i];
         ctx.moveTo(x, 0)
         ctx.lineTo(x, canvas.height)
         i++
@@ -340,3 +337,5 @@ function drawXGridLines() {
 
     requestPaint()
 }
+
+

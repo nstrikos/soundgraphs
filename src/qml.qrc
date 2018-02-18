@@ -1,19 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
-        <file>ShowGraphButton.qml</file>
-        <file>ShowTableButton.qml</file>
-        <file>ButtonsColumn.qml</file>
-        <file>ButtonsContainer.qml</file>
-        <file>ControlsContainer.qml</file>
-        <file>InputRect.qml</file>
-        <file>SubjectRect.qml</file>
-        <file>LabelText.qml</file>
-        <file>InputText.qml</file>
-        <file>TableView.qml</file>
         <file>GraphCanvas.qml</file>
         <file>newmain.qml</file>
-        <file>LineEdit.qml</file>
         <file>ParametersButton.qml</file>
         <file>GraphButton.qml</file>
         <file>Rect2Button.qml</file>
@@ -25,5 +13,6 @@
         <file>ButtonsRect.qml</file>
         <file>GraphRect.qml</file>
         <file>GraphCanvasJS.js</file>
+        <file>GraphCanvasMouseJS.js</file>
     </qresource>
 </RCC>
