@@ -27,6 +27,8 @@ RowLayout {
         radius: 10
         Layout.fillWidth: true
         Layout.preferredHeight: 50
+        Accessible.name: "test button"
+
         TextInput {
             id: input
             text: text

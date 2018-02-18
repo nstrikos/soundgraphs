@@ -8,6 +8,8 @@ Button {
     property bool isActive: true
     property bool isPressed: true
 
+    Accessible.name: "My button"
+
     contentItem: Text {
         id: buttonText
         text: qsTr("Function\nparameters")

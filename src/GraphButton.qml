@@ -26,6 +26,8 @@ Button {
         border.color: isActive ? "red" : "gray"
         color: isPressed ? "lightblue": "white"
         border.width: 5
+        Accessible.name: "graph button"
+
     }
 
     onClicked: graphButtonPressed()
