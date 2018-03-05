@@ -22,10 +22,10 @@ Canvas {
     property var ctx //Handle to canvas
     property var canvasData //canvas data for displaying pixels
     property bool canvasDataAreValid: false //Check if canvas is ready for drawing
-    property real xStart: -2
-    property real xEnd: 2
-    property real yStart: -2
-    property real yEnd: 2
+    property real xStart: -10
+    property real xEnd: 10
+    property real yStart: -10
+    property real yEnd: 10
     property real h: 0.1
     property var xPoints: [] //Store actual x values
     property var yPoints: [] //Store actual y values
@@ -33,7 +33,6 @@ Canvas {
     property var yScrCoords:[]  //Store y screen coordinates
     property real lineWidth: 2
     property bool drawLinesEnabled: false
-    property real distance
     property var xGrid: [] //Store actual x grid coordinates
     property var yGrid: [] //Store actual y grid coordiantes
     property var tempGrid: []
@@ -56,7 +55,10 @@ Canvas {
     onAvailableChanged: CanvasJS.paintCanvas()
 
     //Works for linux
-    onHeightChanged: CanvasJS.paintCanvas()
+    onHeightChanged: {
+        if (canvasDataAreValid)
+            CanvasJS.paintCanvas()
+    }
     onWidthChanged: {
         if (canvasDataAreValid)
             CanvasJS.paintCanvas()

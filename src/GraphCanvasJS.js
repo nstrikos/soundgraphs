@@ -1,3 +1,9 @@
+var gridDistance
+var maxGridLines = 20
+var minGridLines = 10
+var dMinLimit = 0.00000001
+
+
 function updatePoints()
 {
     xStart = parser.xStart
@@ -62,12 +68,14 @@ function draw()
         drawLines()
     else
         drawPixels()
+
+    drawGrid()
 }
 
 function drawPixels()
 {
     if (canvasDataAreValid) {
-        for ( var i = 0; i < xScrCoords.length; i++) {
+        for (var i = 0; i < xScrCoords.length; i++) {
             var y = yScrCoords[i]
             var x = xScrCoords[i]
             var idx = (x + y * canvas.width) * 4
@@ -79,30 +87,14 @@ function drawPixels()
             canvasData.data[idx + 3] = 255
         }
         ctx.drawImage(canvasData, 0, 0)
-        requestPaint()
     }
 }
 
 function drawLines()
 {
-    ctx.beginPath()
-    ctx.lineWidth = 4
-    ctx.strokeStyle = '#000000'; // set line color
-    var xAxes =  Math.round( strip( canvas.width / (xEnd - xStart) * (0 - xStart) ) )
-    var yAxes = Math.round( strip(canvas.height / (yEnd - yStart) * (0 - yStart) ) )
-    ctx.moveTo(xAxes, 0)
-    ctx.lineTo(xAxes, canvas.height)
-    ctx.moveTo(0, canvas.height - yAxes)
-    ctx.lineTo(canvas.width, canvas.height - yAxes)
-    //ctx.moveTo(xAxes, yAxes)
-    //ctx.lineTo(xAxes, 0)
-    ctx.stroke()
-
     var x,y
-    //ctx.lineWidth = canvas.lineWidth
     ctx.lineWidth = 5
-    // set line color
-    ctx.strokeStyle = '#ff0000';
+    ctx.strokeStyle = '#ff0000' //set line color
     ctx.beginPath()
 
     //Go to first point without drawing a line
@@ -116,143 +108,157 @@ function drawLines()
         x = xScrCoords[i]
         ctx.lineTo(x, y)
     }
-    ctx.stroke()
 
-    drawCoordinates(xStart, xEnd, "x")
+    ctx.stroke()
+}
+
+function drawGrid()
+{
+    drawAxes()
+
+    calcCoordinates(xStart, xEnd, "x")
     xGridScrCoords = tempGrid
     ctx.beginPath()
     ctx.lineWidth = 0.1
-    // set line color
     ctx.strokeStyle = '#000000';
-    i = 0;
+
+    var i = 0;
+    var xx = 0;
     while ( i < xGridScrCoords.length) {
-        x = xGridScrCoords[i];
+        xx = xGridScrCoords[i];
         //ctx.font = "30px Arial";
         ctx.fillStyle = "black";
-        var round = Math.round (xGrid[i] / distance) * distance
-        //round = parseFloat(round)
+        var round = Math.round (xGrid[i] / gridDistance) * gridDistance
         var text = +parseFloat(round).toFixed(5)
         var w = ctx.measureText(text).width
-        console.log(i, xGrid[i])
-        if ( (x + w/2) >= canvas.width )
+        if ( (xx + w/2) >= canvas.width )
         {
-            var pos = x - w/2 - 10
+            var pos = xx - w/2 - 10
         }
-        else if (x - w/2 <= 0) {
+        else if (xx - w/2 <= 0) {
             console.log("Error: " + i)
             pos = 0
         }
         else
-            pos = x - w/2
+            pos = xx - w/2
         ctx.fillText(text, pos, 10);
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, canvas.height)
+        ctx.moveTo(xx, 0)
+        ctx.lineTo(xx, canvas.height)
         i++
     }
 
-    drawCoordinates(yStart, yEnd, "y")
+    calcCoordinates(yStart, yEnd, "y")
     yGridScrCoords = tempGrid
     i = 0;
+    var yy = 0;
     while ( i < yGridScrCoords.length) {
-        y = yGridScrCoords[i];
+        yy = yGridScrCoords[i];
         ctx.fillStyle = "black";
-        round = Math.round (yGrid[i] / distance) * distance
-        ctx.fillText(+parseFloat(round).toFixed(5), 0, canvas.height - y);
-        ctx.moveTo(0, y)
-        ctx.lineTo(canvas.width, y)
+        round = Math.round (yGrid[i] / gridDistance) * gridDistance
+        ctx.fillText(+parseFloat(round).toFixed(5), 0, canvas.height - yy);
+        ctx.moveTo(0, yy)
+        ctx.lineTo(canvas.width, yy)
         i++
     }
 
     ctx.stroke()
-
     requestPaint()
 }
 
-function drawCoordinates(start, end, method) {
+function drawAxes()
+{
+    ctx.beginPath()
+    ctx.lineWidth = 4
+    ctx.strokeStyle = '#000000'; // set line color
+    var xAxes =  Math.round( strip( canvas.width / (xEnd - xStart) * (0 - xStart) ) )
+    var yAxes = Math.round( strip(canvas.height / (yEnd - yStart) * (0 - yStart) ) )
+    ctx.moveTo(xAxes, 0)
+    ctx.lineTo(xAxes, canvas.height)
+    ctx.moveTo(0, canvas.height - yAxes)
+    ctx.lineTo(canvas.width, canvas.height - yAxes)
+    ctx.stroke()
+}
 
-    tempGrid.length = 0
+function calcCoordinates(start, end, method) {
 
-    var max = 20 //Maximum twenty lines
-    var min = 10 //Minimum ten lines
-    var l = end - start
+    var length = end - start
 
-    var d = 1 //Starting distance
+    gridDistance = 1 //Starting distance between grid lines
 
-    var n = l / d
-    if (d < l / max) {
-        dMax(d, l, max, min)
-        findGridLines(start, end, distance, method)
+    if (gridDistance < length / maxGridLines) {
+        dMax(gridDistance, length)
+        findGridLines(start, end, gridDistance, method)
     }
-    else if ( d >= l/max  && d <= l/min) {
-        distance = d
-        findGridLines(start, end, distance, method)
+    else if ( (gridDistance >= length/maxGridLines)  &&
+             (gridDistance <= length/minGridLines)) {
+        findGridLines(start, end, gridDistance, method)
     }
     else {
-        dMin(d, l, max, min)
-        findGridLines(start, end, distance, method)
+        dMin(gridDistance, length)
+        findGridLines(start, end, gridDistance, method)
     }
 }
 
-function strip(number) {
-    return (parseFloat(number).toPrecision(10));
-}
-
-function dMin(d, l, max, min) {
+function dMin(d, l) {
+    if (d < dMinLimit)
+        return
     var temp_d = d
-    var f1 = l /max
-    var f2 = l / min
-    if (temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
-        distance = temp_d
+    var f1 = l / maxGridLines
+    var f2 = l / minGridLines
+
+    //Scientific way to say  f1 <= temp_d <= f2
+    if (temp_d - f1 >= dMinLimit && temp_d - f2 <= dMinLimit) {
+        gridDistance = temp_d
         return
     }
     else {
         temp_d = d / 2.0
-        if ( temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
-            distance = temp_d
+        if ( temp_d - f1 >= dMinLimit && temp_d - f2 <= dMinLimit) {
+            gridDistance = temp_d
             return
         }
         else {
             temp_d = d / 5.0
-            if ( temp_d - f1 >= 0.000001 && temp_d - f2 <= 0.000001) {
-                distance = temp_d
+            if ( temp_d - f1 >= dMinLimit && temp_d - f2 <= dMinLimit) {
+                gridDistance = temp_d
                 return
             }
             else {
                 temp_d = d / 10.0
-                dMin(temp_d, l , max,  min)
+                dMin(temp_d, l)
             }
         }
     }
-
 }
 
-function dMax(d, l, max, min) {
+function dMax(d, l) {
     var temp_d = d
-    if (temp_d >= l /max && temp_d <= l/min) {
-        distance = temp_d
+    if (temp_d >= l / maxGridLines && temp_d <= l/minGridLines) {
+        gridDistance = temp_d
         return
     }
     else {
         temp_d = 2 * d
-        if ( temp_d >= l /max && temp_d <= l/min) {
-            distance = temp_d
+        if ( temp_d >= l /maxGridLines && temp_d <= l/minGridLines) {
+            gridDistance = temp_d
             return
         }
         else {
             temp_d = 5 * d
-            if ( temp_d >= l /max && temp_d <= l/min) {
-                distance = temp_d
+            if ( temp_d >= l /maxGridLines && temp_d <= l/minGridLines) {
+                gridDistance = temp_d
                 return
             }
             else {
                 temp_d = 10 * d
-                dMax(temp_d, l , max,  min)
+                dMax(temp_d, l)
             }
         }
     }
 }
 
 function findGridLines(x0, x1, dl, method) {
+    tempGrid.length = 0
     var point = (x0)
     point = point / dl
     point = Math.floor(point)
@@ -265,18 +271,7 @@ function findGridLines(x0, x1, dl, method) {
         tempGrid.push(Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) ))
         yGrid.push(point)
     }
-//        point = (x0 + dl)
-//        point = point / dl
-//        point = Math.floor(point)
-//        point = point * dl
-//        if (method === "x") {
-//            tempGrid.push(Math.round( strip( canvas.width / (xEnd - xStart) * (point - xStart) ) ))
-//            xGrid.push(point)
-//        }
-//        else {
-//            tempGrid.push(Math.round( strip(canvas.height / (yEnd - yStart) * (point - yStart) ) ))
-//            yGrid.push(point)
-//        }
+
     var done = false
     while (!done) {
         point += dl
@@ -307,35 +302,6 @@ function findGridLines(x0, x1, dl, method) {
     }
 }
 
-function drawxGridScrCoordsLines() {
-    var x,y
-    //ctx.lineWidth = canvas.lineWidth
-    ctx.lineWidth = 5
-    // set line color
-    ctx.strokeStyle = '#ff0000';
-    ctx.beginPath()
-
-    //        //Go to first point without drawing a line
-    //        y = yScrCoords[0]
-    //        x = xScrCoords[0]
-    //        ctx.moveTo(x, y)
-
-    //        //Begin drawing lines
-    //        for (var i = 1; i < xScrCoords.length; i++) {
-    //            y = yScrCoords[i]
-    //            x = xScrCoords[i]
-    //            ctx.lineTo(x, y)
-    //        }
-    //        ctx.stroke()
-    var i = 0;
-    while ( i < xGridScrCoords.length) {
-        x = xGridScrCoords[i];
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, canvas.height)
-        i++
-    }
-
-    requestPaint()
+function strip(number) {
+    return (parseFloat(number).toPrecision(10));
 }
-
-
